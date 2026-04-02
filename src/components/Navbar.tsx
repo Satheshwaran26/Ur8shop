@@ -11,14 +11,24 @@ const navLinks = [
   { label: "Accessories", href: "/products?category=accessories" },
 ];
 
+const searchPlaceholders = ["T-Shirt", "Jeans", "Sweaters", "Jackets"];
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIdx((i) => (i + 1) % searchPlaceholders.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -29,7 +39,7 @@ const Navbar = () => {
     >
       <div className="section-padding">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Mobile menu */}
+          {/* Left: Mobile menu */}
           <button
             className="lg:hidden p-1 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -38,37 +48,31 @@ const Navbar = () => {
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          {/* Logo */}
-          <Link to="/" className="font-heading text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+          {/* Center: Logo */}
+          <Link
+            to="/"
+            className="absolute left-1/2 -translate-x-1/2 font-heading text-xl sm:text-2xl font-bold tracking-tight text-foreground"
+          >
             Ur8shop
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 tracking-wide uppercase"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Icons */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            <button className="text-foreground hover:text-muted-foreground transition-colors" aria-label="Search">
+          {/* Right: Search + Icons */}
+          <div className="flex items-center gap-3 sm:gap-4 ml-auto">
+            {/* Search bar - desktop only */}
+            <div className="hidden lg:flex items-center border border-border rounded-full px-3 py-1.5 gap-2 min-w-[180px]">
+              <Search size={16} className="text-muted-foreground" />
+              <input
+                type="text"
+                placeholder={`Search "${searchPlaceholders[placeholderIdx]}"`}
+                className="bg-transparent text-sm outline-none w-full placeholder:text-muted-foreground"
+              />
+            </div>
+            {/* Search icon - mobile only */}
+            <button className="lg:hidden text-foreground hover:text-muted-foreground transition-colors" aria-label="Search">
               <Search size={20} />
             </button>
             <Link to="/login" className="text-foreground hover:text-muted-foreground transition-colors" aria-label="Account">
               <User size={20} />
-            </Link>
-            <Link to="/wishlist" className="text-foreground hover:text-muted-foreground transition-colors relative" aria-label="Wishlist">
-              <Heart size={20} />
-              <span className="absolute -top-1.5 -right-1.5 bg-foreground text-background text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">
-                2
-              </span>
             </Link>
             <Link to="/cart" className="text-foreground hover:text-muted-foreground transition-colors relative" aria-label="Cart">
               <ShoppingBag size={20} />
