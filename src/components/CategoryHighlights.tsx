@@ -18,8 +18,8 @@ const cats = [
 const CategoryHighlights = () => {
   return (
     <section className="section-padding py-10 sm:py-14">
-      <h2 className="font-heading text-lg sm:text-xl tracking-[0.15em] uppercase text-center mb-8 font-bold">
-        Featured Categories
+      <h2 className="font-heading text-2xl sm:text-3xl tracking-tighter uppercase text-center mb-10 font-black leading-[1.1] max-w-[200px] sm:max-w-none mx-auto">
+        Featured <br className="sm:hidden" /> Categories
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
         {cats.map((cat) => (

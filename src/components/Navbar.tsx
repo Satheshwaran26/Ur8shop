@@ -49,34 +49,37 @@ const Navbar = () => {
           scrolled ? "shadow-md py-1" : "py-2"
         }`}
       >
-        <div className="section-padding flex items-center justify-between h-14 sm:h-16">
+        <div className="px-4 flex items-center justify-between h-14 sm:h-16 relative w-full">
           {/* Left: Hamburger menu */}
-          <button
-            className="p-2 text-foreground hover:bg-muted/50 rounded-md transition-colors"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Toggle menu"
-          >
-            <Menu size={24} strokeWidth={1.5} />
-          </button>
+          <div className="w-[80px] flex justify-start">
+            <button
+              className="p-1 -ml-1 text-foreground hover:bg-muted/50 rounded-md transition-colors"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Toggle menu"
+            >
+              <Menu size={24} strokeWidth={1.5} />
+            </button>
+          </div>
 
           {/* Center: Logo */}
-          <Link
-            to="/"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 group"
-          >
-        
-            <span className="font-medium text-xl sm:text-2xl font-black tracking-tighter text-foreground">
-              Ur8shop
-            </span>
-          </Link>
+          <div className="flex-1 flex justify-center">
+            <Link
+              to="/"
+              className="flex items-center group flex-shrink-0"
+            >
+              <span className="font-heading text-xl sm:text-2xl font-black tracking-tighter uppercase text-foreground">
+                Ur8shop
+              </span>
+            </Link>
+          </div>
 
           {/* Right: Search + Icons */}
-          <div className="flex items-center gap-2 sm:gap-6 ml-auto">
-            {/* Search bar */}
+          <div className="w-[120px] flex items-center justify-end gap-1">
+            {/* Desktop Search bar */}
             <div 
               className={`hidden md:flex items-center border border-border transition-all duration-300 ${
                 searchFocused ? "border-foreground ring-1 ring-foreground/10" : ""
-              } px-4 py-2 gap-3 min-w-[280px] lg:min-w-[400px]`}
+              } px-4 py-2 gap-3 min-w-[280px] lg:min-w-[400px] absolute right-40 top-1/2 -translate-y-1/2`}
             >
               <Search size={18} className={searchFocused ? "text-foreground" : "text-muted-foreground"} strokeWidth={1.5} />
               <input
@@ -88,19 +91,18 @@ const Navbar = () => {
               />
             </div>
 
-            {/* Mobile Search Icon */}
-            <button className="md:hidden text-foreground p-2" aria-label="Search">
-              <Search size={22} strokeWidth={1.5} />
-            </button>
-
-            <div className="flex items-center gap-3 sm:gap-4">
-              <Link to="/login" className="text-foreground hover:text-muted-foreground transition-colors p-1" aria-label="Account">
+            {/* Mobile Icons */}
+            <div className="flex items-center">
+              <button className="md:hidden text-foreground p-1.5" aria-label="Search">
+                <Search size={22} strokeWidth={1.5} />
+              </button>
+              <Link to="/login" className="hidden sm:flex text-foreground hover:text-muted-foreground transition-colors p-1.5" aria-label="Account">
                 <User size={22} strokeWidth={1.5} />
               </Link>
-              <Link to="/cart" className="text-foreground hover:text-muted-foreground transition-colors relative p-1" aria-label="Cart">
+              <Link to="/cart" className="text-foreground hover:text-muted-foreground transition-colors relative p-1.5" aria-label="Cart">
                 <ShoppingBag size={22} strokeWidth={1.5} />
-                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-background">
-                  <Heart size={8} fill="white" />
+                <div className="absolute top-1 right-1 bg-red-500 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-background scale-75">
+                  <span className="text-[10px]">3</span>
                 </div>
               </Link>
             </div>
@@ -131,12 +133,12 @@ const Navbar = () => {
           {/* Content */}
           <div className="flex-1 overflow-y-auto no-scrollbar">
             {/* Featured Grid */}
-            <div className="flex overflow-x-auto gap-2 p-4 no-scrollbar">
+            <div className="flex overflow-x-auto gap-3 p-4 no-scrollbar">
               {featuredCats.map((cat, i) => (
-                <div key={i} className="flex-none w-1/3 aspect-[4/5] relative overflow-hidden group cursor-pointer border border-border">
+                <div key={i} className="flex-none w-[40%] sm:w-[25%] aspect-[4/5] relative overflow-hidden group cursor-pointer border border-border">
                   <img src={cat.img} alt={cat.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                    <span className="text-white font-black text-xs sm:text-sm tracking-tighter uppercase bg-black/40 px-2 py-1 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <span className="text-white font-black text-[10px] sm:text-xs tracking-tighter uppercase bg-black/50 px-2 py-1 backdrop-blur-sm">
                       {cat.label}
                     </span>
                   </div>

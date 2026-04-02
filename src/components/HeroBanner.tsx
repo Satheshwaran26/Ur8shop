@@ -67,9 +67,9 @@ const HeroBanner = () => {
           {slides.map((slide, i) => (
             <div
               key={i}
-              className="flex-[0_0_75%] sm:flex-[0_0_50%] lg:flex-[0_0_48%] min-w-0 relative mr-1"
+              className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_48%] min-w-0 relative sm:mr-4"
             >
-              <div className="relative aspect-[4/3] sm:aspect-[16/9 overflow-hidden">
+              <div className="relative aspect-[4/3] sm:aspect-[16/9] overflow-hidden">
                 <img
                   src={slide.image}
                   alt={slide.title}
@@ -79,23 +79,23 @@ const HeroBanner = () => {
                   {...(i === 0 ? {} : { loading: "lazy" as const })}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
                   {slide.titleBig ? (
                     <>
-                      <p className="text-primary-foreground/80 text-lg sm:text-2xl font-body mb-1">
+                      <p className="text-primary-foreground/80 text-base sm:text-2xl font-body mb-1">
                         {slide.title}
                       </p>
-                      <h2 className="font-heading text-3xl sm:text-5xl text-primary-foreground font-bold leading-tight mb-4 whitespace-pre-line">
+                      <h2 className="font-heading text-2xl sm:text-5xl text-primary-foreground font-bold leading-tight mb-3 sm:mb-4 whitespace-pre-line">
                         {slide.titleBig}
                       </h2>
                     </>
                   ) : (
-                    <h2 className="font-heading text-3xl sm:text-5xl text-primary-foreground font-bold leading-tight mb-2 whitespace-pre-line">
+                    <h2 className="font-heading text-2xl sm:text-5xl text-primary-foreground font-bold leading-tight mb-2 whitespace-pre-line">
                       {slide.title}
                     </h2>
                   )}
                   {slide.subtitle && (
-                    <p className="text-primary-foreground/80 text-sm sm:text-base font-body whitespace-pre-line mb-4">
+                    <p className="text-primary-foreground/80 text-xs sm:text-base font-body whitespace-pre-line mb-3 sm:mb-4 max-w-[80%]">
                       {slide.subtitle}
                     </p>
                   )}
@@ -113,7 +113,7 @@ const HeroBanner = () => {
                   )}
                   <Link
                     to={slide.cta.href}
-                    className="inline-block bg-background text-foreground px-6 py-3 text-xs sm:text-sm font-medium tracking-wider uppercase rounded-full hover:bg-background/90 transition-colors"
+                    className="inline-block bg-background text-foreground px-5 py-2.5 sm:px-8 sm:py-3.5 text-[10px] sm:text-xs font-bold tracking-widest uppercase rounded-full hover:bg-background/90 transition-all shadow-lg active:scale-95"
                   >
                     {slide.cta.label}
                   </Link>
@@ -125,15 +125,15 @@ const HeroBanner = () => {
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center gap-2 mt-4 mb-2">
+      <div className="flex justify-center gap-3 mt-4 mb-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => emblaApi?.scrollTo(i)}
-            className={`h-[3px] rounded-full transition-all duration-300 ${
+            className={`h-[4px] transition-all duration-300 rounded-full ${
               i === selectedIndex
-                ? "w-8 bg-foreground"
-                : "w-3 bg-foreground/30"
+                ? "w-10 bg-foreground"
+                : "w-4 bg-foreground/20"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />
