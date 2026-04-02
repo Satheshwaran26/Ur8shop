@@ -1,22 +1,40 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, Heart } from "lucide-react";
+import cat1 from "@/assets/nav/cat-1.png";
+import cat2 from "@/assets/nav/cat-2.png";
+import cat3 from "@/assets/nav/cat-3.png";
+import cat4 from "@/assets/nav/cat-4.png";
 
-const navLinks = [
+const categories = [
   { label: "New Arrivals", href: "/products?category=new" },
+  { label: "Bestsellers", href: "/products?category=best" },
+  { label: "Shop All", href: "/products" },
   { label: "Shirts", href: "/products?category=shirts" },
-  { label: "T-Shirts", href: "/products?category=t-shirts" },
+  { label: "T-Shirts | Polo", href: "/products?category=t-shirts" },
   { label: "Jeans", href: "/products?category=jeans" },
-  { label: "Jackets", href: "/products?category=jackets" },
-  { label: "Accessories", href: "/products?category=accessories" },
+  { label: "Trousers", href: "/products?category=trousers" },
+  { label: "Linen Edit", href: "/products?category=linen" },
+  { label: "Footwear", href: "/products?category=footwear" },
+  { label: "Cargo Pants", href: "/products?category=cargo" },
+  { label: "Overshirts", href: "/products?category=overshirts" },
+  { label: "Joggers", href: "/products?category=joggers" },
+  { label: "Shorts", href: "/products?category=shorts" },
+  { label: "Perfumes", href: "/products?category=perfumes" },
+  { label: "Accessories | Caps | Bandana", href: "/products?category=accessories" },
 ];
 
-const searchPlaceholders = ["T-Shirt", "Jeans", "Sweaters", "Jackets"];
+const featuredCats = [
+  { img: cat1, label: "9691" },
+  { img: cat2, label: "LEGACY" },
+  { img: cat3, label: "GRIND" },
+  { img: cat4, label: "BISMIL" },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  const [searchFocused, setSearchFocused] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -24,84 +42,129 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlaceholderIdx((i) => (i + 1) % searchPlaceholders.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <header
-      className={`sticky top-0 z-50 bg-background transition-shadow duration-300 ${
-        scrolled ? "shadow-sm" : ""
-      }`}
-    >
-      <div className="section-padding">
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Left: Mobile menu */}
+    <>
+      <header
+        className={`sticky top-0 z-50 bg-background transition-all duration-300 border-b border-border/50 ${
+          scrolled ? "shadow-md py-1" : "py-2"
+        }`}
+      >
+        <div className="section-padding flex items-center justify-between h-14 sm:h-16">
+          {/* Left: Hamburger menu */}
           <button
-            className="lg:hidden p-1 text-foreground"
-            onClick={() => setMobileOpen(!mobileOpen)}
+            className="p-2 text-foreground hover:bg-muted/50 rounded-md transition-colors"
+            onClick={() => setMobileOpen(true)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            <Menu size={24} strokeWidth={1.5} />
           </button>
 
           {/* Center: Logo */}
           <Link
             to="/"
-            className="absolute left-1/2 -translate-x-1/2 font-heading text-xl sm:text-2xl font-bold tracking-tight text-foreground"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 group"
           >
-            Ur8shop
+        
+            <span className="font-medium text-xl sm:text-2xl font-black tracking-tighter text-foreground">
+              Ur8shop
+            </span>
           </Link>
 
           {/* Right: Search + Icons */}
-          <div className="flex items-center gap-3 sm:gap-4 ml-auto">
-            {/* Search bar - desktop only */}
-            <div className="hidden lg:flex items-center border border-border rounded-full px-3 py-1.5 gap-2 min-w-[180px]">
-              <Search size={16} className="text-muted-foreground" />
+          <div className="flex items-center gap-2 sm:gap-6 ml-auto">
+            {/* Search bar */}
+            <div 
+              className={`hidden md:flex items-center border border-border transition-all duration-300 ${
+                searchFocused ? "border-foreground ring-1 ring-foreground/10" : ""
+              } px-4 py-2 gap-3 min-w-[280px] lg:min-w-[400px]`}
+            >
+              <Search size={18} className={searchFocused ? "text-foreground" : "text-muted-foreground"} strokeWidth={1.5} />
               <input
                 type="text"
-                placeholder={`Search "${searchPlaceholders[placeholderIdx]}"`}
-                className="bg-transparent text-sm outline-none w-full placeholder:text-muted-foreground"
+                placeholder='Search "Formal Wear"'
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                className="bg-transparent text-sm outline-none w-full placeholder:text-muted-foreground font-body"
               />
             </div>
-            {/* Search icon - mobile only */}
-            <button className="lg:hidden text-foreground hover:text-muted-foreground transition-colors" aria-label="Search">
-              <Search size={20} />
+
+            {/* Mobile Search Icon */}
+            <button className="md:hidden text-foreground p-2" aria-label="Search">
+              <Search size={22} strokeWidth={1.5} />
             </button>
-            <Link to="/login" className="text-foreground hover:text-muted-foreground transition-colors" aria-label="Account">
-              <User size={20} />
-            </Link>
-            <Link to="/cart" className="text-foreground hover:text-muted-foreground transition-colors relative" aria-label="Cart">
-              <ShoppingBag size={20} />
-              <span className="absolute -top-1.5 -right-1.5 bg-foreground text-background text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">
-                3
-              </span>
-            </Link>
+
+            <div className="flex items-center gap-3 sm:gap-4">
+              <Link to="/login" className="text-foreground hover:text-muted-foreground transition-colors p-1" aria-label="Account">
+                <User size={22} strokeWidth={1.5} />
+              </Link>
+              <Link to="/cart" className="text-foreground hover:text-muted-foreground transition-colors relative p-1" aria-label="Cart">
+                <ShoppingBag size={22} strokeWidth={1.5} />
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-background">
+                  <Heart size={8} fill="white" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Nav Drawer */}
+      <div 
+        className={`fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm transition-transform duration-500 ease-in-out transform ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <button 
+              onClick={() => setMobileOpen(false)} 
+              className="p-1 hover:bg-muted/50 rounded-full transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <h2 className="font-heading font-black tracking-widest text-lg uppercase absolute left-1/2 -translate-x-1/2">
+              CATEGORIES
+            </h2>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            {/* Featured Grid */}
+            <div className="flex overflow-x-auto gap-2 p-4 no-scrollbar">
+              {featuredCats.map((cat, i) => (
+                <div key={i} className="flex-none w-1/3 aspect-[4/5] relative overflow-hidden group cursor-pointer border border-border">
+                  <img src={cat.img} alt={cat.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <span className="text-white font-black text-xs sm:text-sm tracking-tighter uppercase bg-black/40 px-2 py-1 backdrop-blur-sm">
+                      {cat.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* List */}
+            <div className="flex flex-col p-4 gap-1">
+              {categories.map((cat, i) => (
+                <Link
+                  key={i}
+                  to={cat.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-lg font-bold text-foreground tracking-tight py-4 uppercase border-b border-border/30 last:border-0 hover:bg-muted/30 px-2 transition-colors flex items-center justify-between group"
+                >
+                  {cat.label}
+                  <div className="w-2 h-2 bg-foreground scale-0 group-hover:scale-100 transition-transform rounded-full" />
+                </Link>
+              ))}
+            </div>
+            
+            {/* Footer space */}
+            <div className="h-20" />
           </div>
         </div>
       </div>
-
-      {/* Mobile nav */}
-      {mobileOpen && (
-        <nav className="lg:hidden border-t border-border bg-background animate-fade-in">
-          <div className="section-padding py-4 flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-sm font-medium text-foreground tracking-wide uppercase py-1"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-      )}
-    </header>
+    </>
   );
 };
 
